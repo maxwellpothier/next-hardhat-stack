@@ -1,3 +1,4 @@
+const fs = require("fs");
 const hre = require("hardhat");
 
 const sleep = async (ms) => {
@@ -13,6 +14,11 @@ const main = async () => {
 	const helloWorld = await HelloWorld.deploy("Initial message here");
 
 	console.log(`HelloWorld contract deployed to ${helloWorld.address}`);
+
+	fs.writeFileSync("./config.js", `
+export const contractAddress = "${helloWorld.address}"
+export const ownerAddress = "${helloWorld.signer.address}"
+	`);
 
 	await sleep(45 * 1000);
 
